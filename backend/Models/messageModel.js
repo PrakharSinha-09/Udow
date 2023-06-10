@@ -5,7 +5,7 @@
 
 const mongoose=require('mongoose')
 
-const messageSchemma=mongoose.Schema({
+const messageSchema=mongoose.Schema({
     sender:{type: mongoose.Schema.Types.ObjectId,ref:"User"},
     content:{type:String,trim:true},
     chat:{type: mongoose.Schema.Types.ObjectId,ref:"Chat"}
@@ -13,6 +13,6 @@ const messageSchemma=mongoose.Schema({
     timestamps:true
 })
 
-const Message=mongoose.Mongoose.model("Message",messageSchema)
+const Message=mongoose.model("Message",messageSchema)
 
-module.exports=Me
+module.exports=Message

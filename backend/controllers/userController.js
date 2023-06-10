@@ -63,4 +63,20 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+//api/user?search=prakhar ...we will be sending the data to the backend via queries. and not by req.body otherwise we have to use post method
+//just like if the url had the id, we use req.params to capture that id right! for capturing queries, we have req.query
+const allUsers=asyncHandler(async(req,res)=>{
+  const keyword = req.query.search
+  ? {
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
+  : {};
+
+const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });             //this will ensure that current logged in user donesn't see its name in the chatlist
+res.send(users);
+})
+
+module.exports = { registerUser, authUser,allUsers };
